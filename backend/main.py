@@ -19,3 +19,7 @@ app.include_router(users.router, prefix="/users", tags=["users"])
 @app.get("/")
 def root():
     return {"message": "TeamBoard API is running"}
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok", "version": "1.0.0"}
