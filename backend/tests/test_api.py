@@ -1,9 +1,19 @@
+from datetime import datetime
 from fastapi.testclient import TestClient
 import sys
 sys.path.append("..")
 from main import app
 
 client = TestClient(app)
+
+def test_ping():
+    response = client.get("/ping")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "ok"
+    assert "timestamp" in body
+    # Ensure timestamp is a valid ISO 8601 string
+    datetime.fromisoformat(body["timestamp"])
 
 def test_get_projects():
     response = client.get("/projects/")

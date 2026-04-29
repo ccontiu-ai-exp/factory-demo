@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import projects, tasks, users
@@ -19,3 +21,7 @@ app.include_router(users.router, prefix="/users", tags=["users"])
 @app.get("/")
 def root():
     return {"message": "TeamBoard API is running"}
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
