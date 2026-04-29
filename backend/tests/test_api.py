@@ -5,6 +5,18 @@ from main import app
 
 client = TestClient(app)
 
+def test_version_default(monkeypatch):
+    monkeypatch.delenv("APP_VERSION", raising=False)
+    response = client.get("/version")
+    assert response.status_code == 200
+    assert response.json() == {"version": "0.0.1"}
+
+def test_version_from_env(monkeypatch):
+    monkeypatch.setenv("APP_VERSION", "1.2.3")
+    response = client.get("/version")
+    assert response.status_code == 200
+    assert response.json() == {"version": "1.2.3"}
+
 def test_get_projects():
     response = client.get("/projects/")
     assert response.status_code == 200
